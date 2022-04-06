@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mouse Events</title>
+    <style>
+        .selected{
+            background: rgb(137, 67, 184);
+        }
+        li{
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    Below are the members of BTS: TAP ON YOUR BIAS !
+    <br>
+
+    <ul id="ul">
+        <li>Kim Namjoon</li>
+        <li>Kim Seokjin</li>
+        <li>Min Yoongi</li>
+        <li>Jung Hoesok</li>
+        <li>Park Jimin</li>
+        <li>Kim Taehyung</li>
+        <li>Jeon Jungkook</li>
+    </ul>
+
+    <script>
+        ul.onclick = function(event){
+            if(event.target.tagName != "LI") return;
+
+            if(event.ctrlKey || event.metaKey){
+                toggleSelect(event.target);
+            }
+            else{
+                singleSelect(event.target);
+            }
+        }
+
+        ul.onmousedown = function() {
+            return false;
+         };
+
+         function toggleSelect(li) {
+            li.classList.toggle('selected');
+        }
+
+        function singleSelect(li){
+            let selected = ul.querySelectorAll('.selected');
+            for(let elem of selected) {
+                elem.classList.remove('selected');
+            }
+            li.classList.add('selected');
+        }
+
+
+    </script>
+</body>
+</html>
