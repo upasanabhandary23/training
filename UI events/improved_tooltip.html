@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Improved Tooltip Behaviour</title>
+    <style>
+         body {
+      height: 2000px;
+    }
+
+    .tooltip {
+      position: fixed;
+      z-index: 100;
+
+      padding: 10px 20px;
+
+      border: 2px solid #72b3c2;
+      border-radius: 4px;
+      text-align: center;
+      font: italic 14px/1.3 sans-serif;
+      color: rgb(11, 63, 50);
+      background: rgb(201, 234, 238);
+      box-shadow: 3px 3px 3px rgba(140, 190, 190, 0.568);
+    }
+
+    #house {
+      margin-top: 60px;
+      width: 400px;
+      border: 1px solid rgb(86, 202, 183);
+    }
+
+    #roof {
+      width: 0;
+      height: 0;
+      border-left: 200px solid transparent;
+      border-right: 200px solid transparent;
+      border-bottom: 20px solid rgb(86, 202, 183);
+      margin-top: -20px;
+    }
+
+    p {
+      text-align: justify;
+      margin: 10px 3px;
+    }
+
+    </style>
+</head>
+<body>
+    <div data-tooltip="Here is the house interior" id="house">
+        <div data-tooltip="Here is the roof" id="roof"></div>
+
+    <p>ONCE UPON A TIME a girl named Cinderella lived with her stepmother and two stepsisters.  
+       Poor Cinderella had to work hard all day long so the others could rest. It was she who had to wake up each morning when it was still dark and cold to start the fire.  
+       It was she who cooked the meals. It was she who kept the fire going. The poor girl could not stay clean, from all the ashes and cinders by the fire.</p>
+    <p>“What a mess!” her two stepsisters laughed.  And that is why they called her “Cinderella.”</p>
+    <p>One day, big news came to town.  The King and Queen were going to have a ball!  
+       It was time for the Prince to find a bride. All of the young ladies in the land were invited to come.  
+       They were wild with joy! <a href="https://storiestogrowby.org/story/cinderella-fairy-tale-english-story-for-kids/" data-tooltip="Read on…">Hover over me</a></p></p>
+
+    </div>
+
+    <script>
+        let tooltip;
+
+document.onmouseover = function(event) {
+    let anchorElem = event.target.closest('[data-tooltip]');
+    if (!anchorElem) return;
+    tooltip = showTooltip(anchorElem, anchorElem.dataset.tooltip);
+}
+
+document.onmouseout = function() {
+  if (tooltip) {
+    tooltip.remove();
+    tooltip = false;
+  }
+
+}
+
+function showTooltip(anchorElem, html) {
+  let tooltipElem = document.createElement('div');
+  tooltipElem.className = 'tooltip';
+  tooltipElem.innerHTML = html;
+  document.body.append(tooltipElem);
+
+  let coords = anchorElem.getBoundingClientRect();
+
+  let left = coords.left + (anchorElem.offsetWidth - tooltipElem.offsetWidth) / 2;
+  if (left < 0) left = 0;
+
+  let top = coords.top - tooltipElem.offsetHeight - 5;
+  if (top < 0) {
+    top = coords.top + anchorElem.offsetHeight + 5;
+  }
+
+  tooltipElem.style.left = left + 'px';
+  tooltipElem.style.top = top + 'px';
+
+  return tooltipElem;
+}
+
+
+    </script>
+</body>
+</html>
