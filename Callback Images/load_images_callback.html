@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Load Images with Callback</title>
+</head>
+<body>
+    <script>
+        function preloadImages(sources, callback){
+            let counter = 0;
+            function onLoad(){
+                counter++;
+                if(counter == source.length)callback();
+            }
+            for(let source of sources){
+                let img = document.createElement('img');
+                img.onload = img.onerror = onLoad();
+                img.src = source;
+            }
+         }
+
+         let sources = [
+         "C:\Users\UPASANA\Desktop\training\demos\callback\1.jpg",
+         "C:\Users\UPASANA\Desktop\training\demos\callback\2.jpg",
+         "C:\Users\UPASANA\Desktop\training\demos\callback\3.jpg"
+         ]
+
+         for(let i = 0; i < source.length; i++){
+            sources[i] += '?' + Math.random();
+         }
+
+         function testLoaded() {
+      let widthSum = 0;
+      for (let i = 0; i < sources.length; i++) {
+        let img = document.createElement('img');
+        img.src = sources[i];
+        widthSum += img.width;
+      }
+      alert(widthSum);
+    }
+
+    preloadImages(sources, testLoaded);
+    </script>
+</body>
+</html>
