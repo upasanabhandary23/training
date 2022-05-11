@@ -1,0 +1,201 @@
+Lexical Scoping:
+ 
+function init() {
+  var name = 'Mozilla'; 
+  function displayName() { 
+    alert(name); 
+  }
+  displayName();
+}
+init();
+
+
+
+Closures:
+
+function makeFunc() {
+  var name = 'Mozilla';
+  function displayName() {
+    alert(name);
+  }
+  return displayName;
+}
+
+var myFunc = makeFunc();
+myFunc();
+
+
+Example 2:
+
+function makeAdder(x) {
+  return function(y) {
+    return x + y;
+  };
+}
+
+var add5 = makeAdder(5);
+var add10 = makeAdder(10);
+
+console.log(add5(2));  
+console.log(add10(2));
+
+
+
+
+Practical Closures:
+
+HTML:
+    <p>Some paragraph text</p>
+    <h1>some heading 1 text</h1>
+    <h2>some heading 2 text</h2>
+
+    <a href="#" id="size-12">12</a>
+    <a href="#" id="size-14">14</a>
+    <a href="#" id="size-16">16</a>
+
+
+CSS:
+body {
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 12px;
+}
+
+h1 {
+  font-size: 1.5em;
+}
+h2 {
+  font-size: 1.2em;
+}
+
+
+JavaScript:
+function makeSizer(size) {
+  return function() {
+    document.body.style.fontSize = size + 'px';
+  };
+}
+
+var size12 = makeSizer(12);
+var size14 = makeSizer(14);
+var size16 = makeSizer(16);
+
+document.getElementById('size-12').onclick = size12;
+document.getElementById('size-14').onclick = size14;
+document.getElementById('size-16').onclick = size16;
+
+
+
+
+Emulating private methods with closures:
+
+var counter = (function() {
+  var privateCounter = 0;
+  function changeBy(val) {
+    privateCounter += val;
+  }
+
+  return {
+    increment: function() {
+      changeBy(1);
+    },
+
+    decrement: function() {
+      changeBy(-1);
+    },
+
+    value: function() {
+      return privateCounter;
+    }
+  };
+})();
+
+console.log(counter.value()); 
+
+counter.increment();
+counter.increment();
+console.log(counter.value()); 
+
+counter.decrement();
+console.log(counter.value()); 
+
+
+
+Example 2:
+
+var makeCounter = function() {
+  var privateCounter = 0;
+  function changeBy(val) {
+    privateCounter += val;
+  }
+  return {
+    increment: function() {
+      changeBy(1);
+    },
+
+    decrement: function() {
+      changeBy(-1);
+    },
+
+    value: function() {
+      return privateCounter;
+    }
+  }
+};
+
+var counter1 = makeCounter();
+var counter2 = makeCounter();
+
+alert(counter1.value()); 
+
+counter1.increment();
+counter1.increment();
+alert(counter1.value());
+
+counter1.decrement();
+alert(counter1.value());
+alert(counter2.value()); 
+
+
+
+
+
+Closure Scope Chain:
+
+// global scope
+var e = 10;
+function sum(a){
+  return function(b){
+    return function(c){
+      // outer functions scope
+      return function(d){
+        // local scope
+        return a + b + c + d + e;
+      }
+    }
+  }
+}
+
+console.log(sum(1)(2)(3)(4)); // log 20
+
+// You can also write without anonymous functions:
+
+// global scope
+var e = 10;
+function sum(a){
+  return function sum2(b){
+    return function sum3(c){
+      // outer functions scope
+      return function sum4(d){
+        // local scope
+        return a + b + c + d + e;
+      }
+    }
+  }
+}
+
+var sum2 = sum(1);
+var sum3 = sum2(2);
+var sum4 = sum3(3);
+var result = sum4(4);
+console.log(result) //log 20
+
